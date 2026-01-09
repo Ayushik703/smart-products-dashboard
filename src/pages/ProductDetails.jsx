@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "../components/Loader";
+import { useCart } from "../context/CartContext";
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -19,8 +20,10 @@ export const ProductDetails = () => {
     }
   };
 
-  const addToCart = () => {
-    alert(`Added ${quantity} item(s) to cart`);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
   };
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export const ProductDetails = () => {
         </div>
 
         {/* Add to Cart */}
-        <button onClick={addToCart} style={styles.cartBtn}>
+        <button onClick={handleAddToCart} style={styles.cartBtn}>
           Add to Cart
         </button>
       </div>
@@ -72,31 +75,31 @@ const styles = {
     gap: "40px",
     padding: "40px",
     maxWidth: "900px",
-    margin: "auto"
+    margin: "auto",
   },
   image: {
     width: "250px",
-    objectFit: "contain"
+    objectFit: "contain",
   },
   details: {
-    flex: 1
+    flex: 1,
   },
   qtyContainer: {
     display: "flex",
     alignItems: "center",
     gap: "12px",
-    margin: "20px 0"
+    margin: "20px 0",
   },
   qtyBtn: {
     width: "32px",
     height: "32px",
     fontSize: "18px",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   qty: {
     fontSize: "16px",
     minWidth: "20px",
-    textAlign: "center"
+    textAlign: "center",
   },
   cartBtn: {
     padding: "10px 16px",
@@ -104,7 +107,6 @@ const styles = {
     color: "#fff",
     border: "none",
     borderRadius: "6px",
-    cursor: "pointer"
-  }
-}
-
+    cursor: "pointer",
+  },
+};
